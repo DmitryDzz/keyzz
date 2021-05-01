@@ -13,23 +13,34 @@ Terminal game to practice keyboard typing. It's a runner. The idea is to be fast
 
 ### CXX
 ```
-sudo apt install cmake build-essential libncurses6-dev
+sudo apt install cmake build-essential libncurses5-dev
 ```
 
-### cpplint installation
+### cpplint installation (optional)
 ```
 sudo apt install python3-pip
 pip3 install cpplint
 ```
-Restart console!
+Restart computer or source the `.profile` file.
 
 ## Build
+
+### Clone repository
+```
+cd <projects directory>
+git clone git@github.com:DmitryDzz/keyzz.git
+cd keyzz
+```
 
 ### Debug version
 ```
 mkdir debug
 cd debug
+
+cmake -DCMAKE_BUILD_TYPE=Debug ..
+or
 cmake -DCMAKE_CXX_CPPLINT=cpplint -DCMAKE_BUILD_TYPE=Debug ..
+
 cmake --build .
 ./keyzz/keyzz
 ```
@@ -38,18 +49,11 @@ cmake --build .
 ```
 mkdir release
 cd release
+
+cmake -DCMAKE_BUILD_TYPE=Release ..
+or
 cmake -DCMAKE_CXX_CPPLINT=cpplint -DCMAKE_BUILD_TYPE=Release ..
+
 cmake --build .
 ./keyzz/keyzz
 ```
-
-
-
-
-~~
-## dev
-`sudo apt install libncursesw5-dev` (not sure...)
-```
-sudo apt install libncurses5-dev libgtest-dev libgmock-dev
-```
-~~
