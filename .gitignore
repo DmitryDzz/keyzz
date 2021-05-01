@@ -1,0 +1,10 @@
+debug/
+release/
+
+packages/keyzz_1.0.0-?_amd64/usr/bin/keyzz
+packages/keyzz_1.0.0-?_amd64.deb
+
+# IDE files
+.vscode/
+*.swp
+run-ide.sh

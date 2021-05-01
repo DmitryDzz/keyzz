@@ -1,0 +1,103 @@
+// Copyright 2021 DmitryDzz
+
+#include "text_block.hpp"
+
+#include <logger/easylogging++.h>
+
+#include <minunity/graph.hpp>
+
+#include "../app_manager.hpp"
+
+using keyzz::TextBlock;
+using minunity::Graph;
+
+TextBlock::TextBlock(int x, int y, int w) : x_(x), y_(y), w_(w), lap_text_(L"") {
+    win_ = newwin(3, w_, x_, y_);
+}
+
+void TextBlock::destroy() {
+    if (win_ != nullptr) {
+        delwin(win_);
+        win_ = nullptr;
+    }
+}
+
+// void TextBlock::awake() {
+// }
+//
+// void TextBlock::update() {
+// }
+
+void TextBlock::set_active(bool active) {
+    GameObject::set_active(active);
+    if (!active)
+        clear();
+}
+
+void TextBlock::start_lap(std::wstring lap_text, int lap_index, int laps_count) {
+    clear();
+    lap_text_ = lap_text;
+    lap_index_ = lap_index;
+    laps_count_ = laps_count;
+    set_cursor(0, false);
+    if (win_) {
+        Graph::win_draw(win_, lap_text_.c_str(), 3, 1);
+        wrefresh(win_);
+    }
+    position_ = 0;
+    race_finished_ = false;
+    lap_finished_ = false;
+//    LOG(INFO) << "[TextBlock] " << position_;
+}
+
+void TextBlock::set_cursor(int position, bool show_error) {
+    if (!win_) return;
+    Graph::win_draw(win_, show_error ? L"E" : L"_", 3 + position, 0);
+    Graph::win_draw(win_, L"‾", 3 + position, 2);
+    wrefresh(win_);
+}
+
+void TextBlock::clear_cursor(int position) {
+    if (!win_) return;
+    Graph::win_draw(win_, L" ", 3 + position, 0);
+    Graph::win_draw(win_, L" ", 3 + position, 2);
+    wrefresh(win_);
+}
+
+void TextBlock::clear() {
+    werase(win_);
+    wrefresh(win_);
+}
+
+bool TextBlock::input(const int key) {
+    AppManager::Settings* settings = AppManager::get_instance().get_settings();
+    int visible_key_code;
+    if (key == 0x09)
+        visible_key_code = settings->get_tab_code();
+    else if (key == 0x0A)
+        visible_key_code = settings->get_return_code();
+    else
+        visible_key_code = key;
+
+    if (lap_text_[position_] == visible_key_code) {
+        clear_cursor(position_);
+        position_++;
+        if (static_cast<uint64_t>(position_) < lap_text_.size()) {
+            set_cursor(position_, false);
+        } else {
+            lap_finished_ = true;
+            race_finished_ = lap_index_ == laps_count_ - 1;
+        }
+        return true;
+    }
+    set_cursor(position_, true);
+    return false;
+}
+
+bool TextBlock::get_race_finished() {
+    return race_finished_;
+}
+
+bool TextBlock::get_lap_finished() {
+    return lap_finished_;
+}
