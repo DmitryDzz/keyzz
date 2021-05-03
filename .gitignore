@@ -1,8 +1,7 @@
 debug/
 release/
 
-packages/keyzz_1.0.0-?_amd64/usr/bin/keyzz
-packages/keyzz_1.0.0-?_amd64.deb
+packages/keyzz_*
 
 # IDE files
 .vscode/

@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <regex>
 #include <string>
 
 #include <minunity/collider_groups.hpp>
@@ -19,24 +20,56 @@ using keyzz::SceneLevel1;
 using minunity::ColliderGroups;
 
 const char VERSION[] = "1.0.0";
+const char INTRO[] = "keyzz© terminal game by @DmitryDzz";
+
+void output_intro() {
+    std::cout << INTRO << std::endl;
+    std::cout << std::endl;
+}
+
+void output_help() {
+    std::cout << "Usage" << std::endl;
+    std::cout << "  keyzz <text file>" << std::endl;
+    std::cout << "  keyzz --help|-h" << std::endl;
+    std::cout << "  keyzz --version|-v" << std::endl;
+}
+
+void output_version() {
+    // For CI / CD purposes, the output must contain only one line.
+    std::cout << VERSION << std::endl;
+}
 
 int main(int argc, char** argv) {
-    std::stringstream intro;
-    intro << "keyzz© v" << VERSION << " terminal game by @DmitryDzz";
-    std::cout << intro.str() << std::endl;
     if (argc != 2) {
-        std::cout << std::endl;
-        std::cout << "Usage: ./keyzz <filename>" << std::endl;
-        std::cout << "<filename>: text file" << std::endl;
+        output_intro();
+        output_help();
         return AppManager::ERR_WRONG_PARAMETERS;
     }
+
+    const std::string arg(argv[1]);
+    std::smatch m;
+    const std::regex re_help("--help|-h");
+    const std::regex re_version("--version|-v");
+
+    if (std::regex_match(arg, m, re_help)) {
+        output_intro();
+        output_help();
+        return 0;
+    }
+    if (std::regex_match(arg, m, re_version)) {
+        output_version();
+        return 0;
+    }
+
+    output_intro();
+
     std::string filename(argv[1]);
 
     minunity::Engine *engine = minunity::Engine::get_instance();
 
     el::Helpers::setStorage(engine->get_log_storage());
 
-    LOG(INFO) << intro.str();
+    LOG(INFO) << INTRO;
 
     try {
         engine->start();

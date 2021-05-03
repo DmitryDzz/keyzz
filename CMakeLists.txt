@@ -11,6 +11,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -Wall -Werror -Wextra -Wzero-as-null-pointer-constant -Winit-self -Wswitch-default -Wfloat-equal -Wno-unused-parameter -fPIC -march=native")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")  # debug symbols
 
+add_definitions(-DELPP_NO_DEFAULT_LOG_FILE)
+
 add_subdirectory(logger)
 add_subdirectory(minunity)
 add_subdirectory(keyzz)
