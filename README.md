@@ -3,8 +3,8 @@ Terminal game to practice keyboard typing. It's a runner. The idea is to be fast
 
 # How to install and run
 
-1. Download [deb package](https://...).
-1. Install: `sudo apt install ./keyzz_x.x.x-x_amd64.deb`
+1. Download [deb package](https://github.com/DmitryDzz/keyzz/releases).
+1. Install: `sudo apt install ./keyzz_x.x.x_amd64.deb`
 1. Run: `keyzz <text file>`
 
 # How to build
