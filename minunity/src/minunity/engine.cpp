@@ -28,7 +28,8 @@ Engine *Engine::get_instance() {
         el::Configurations conf;
         conf.setToDefault();
         conf.set(el::Level::Global, el::ConfigurationType::ToFile, "true");
-        conf.set(el::Level::Global, el::ConfigurationType::Filename, "log.txt");
+// Use -DELPP_DEFAULT_LOG_FILE to set log filename.
+//        conf.set(el::Level::Global, el::ConfigurationType::Filename, "log.txt");
         conf.set(el::Level::Global, el::ConfigurationType::ToStandardOutput, "false");
         el::Loggers::reconfigureLogger("default", conf);
 
