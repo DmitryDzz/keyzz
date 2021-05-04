@@ -19,7 +19,7 @@ using keyzz::SceneLevel1;
 
 using minunity::ColliderGroups;
 
-const char VERSION[] = "1.0.0";
+const char VERSION[] = "1.0.1";
 const char INTRO[] = "keyzz© terminal game by @DmitryDzz";
 
 void output_intro() {
