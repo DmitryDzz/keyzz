@@ -36,7 +36,8 @@ void RendererComponent::update() {
             clear();
         return;
     }
-    if (position_component_->get_modified() || sprite_->get_modified() || visibility_modified_) {
+    if (position_component_->get_modified() || sprite_->get_modified() || visibility_modified_ || force_redraw_) {
+        force_redraw_ = false;
         if (win_has_content)
             clear();
         win_has_content = true;
@@ -52,6 +53,10 @@ void RendererComponent::update() {
         sprite_->clear_modified();
         visibility_modified_ = false;
     }
+}
+
+void RendererComponent::redraw() {
+    force_redraw_ = true;
 }
 
 void RendererComponent::clear() {

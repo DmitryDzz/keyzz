@@ -40,10 +40,34 @@ Engine *Engine::get_instance() {
     return s_instance;
 }
 
+void winch_handler(int sig) {
+    Engine *engine = Engine::get_instance();
+    if (engine != nullptr)
+        engine->redraw();
+}
+
+void Engine::redraw() {
+    endwin();
+    // Needs to be called after an endwin() so ncurses will initialize
+    // itself with the new terminal dimensions.
+    refresh();
+    clear();
+
+    // LOG(INFO) << "+++++++++ New size: " << COLS << "x" << LINES;
+
+    if (scene_ != nullptr)
+        scene_->redraw();  // Sets force_redraw_ flag in all RendererComponents.
+}
+
 void Engine::start() {
     setlocale(LC_ALL, "");
     initscr();
     curs_set(0);
+
+    struct sigaction sa;
+    memset(&sa, 0, sizeof(struct sigaction));
+    sa.sa_handler = winch_handler;
+    sigaction(SIGWINCH, &sa, NULL);
 
     Input::start();
     is_started_ = true;

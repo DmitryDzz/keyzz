@@ -19,6 +19,7 @@ public:
     virtual void update();
 
     void render();
+    void redraw();
 
     virtual std::shared_ptr<GameObject> add_game_object(GameObject *go);
     std::vector<std::shared_ptr<GameObject>>& get_game_objects() { return game_objects_; }

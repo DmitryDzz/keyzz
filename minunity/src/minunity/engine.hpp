@@ -27,6 +27,7 @@ public:
     void set_scene(Scene *scene);
     ColliderGroups& get_collider_groups();
     Time *get_time();
+    void redraw();
 private:
     bool is_started_ = false;
     bool is_running_ = false;

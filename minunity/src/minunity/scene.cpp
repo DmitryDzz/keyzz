@@ -85,6 +85,19 @@ void Scene::render_layer(Layer layer) {
     }
 }
 
+void Scene::redraw() {
+    for (auto& sh_go : game_objects_) {
+        GameObject *go = sh_go.get();
+        for (auto& s_co : go->get_components()) {
+            std::shared_ptr<RendererComponent> shared_renderer_component_ptr =
+                std::dynamic_pointer_cast<RendererComponent>(s_co);
+
+            if (shared_renderer_component_ptr != nullptr)  // Component is a RendererComponent
+                shared_renderer_component_ptr->redraw();
+        }
+    }
+}
+
 std::shared_ptr<GameObject> Scene::add_game_object(GameObject *go) {
     std::shared_ptr<GameObject> shared_go(go);
     game_objects_.push_back(shared_go);

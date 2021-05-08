@@ -32,6 +32,8 @@ public:
 
     Layer get_layer() { return layer_; }
     void set_layer(Layer layer) { layer_ = layer; }
+
+    void redraw();
 private:
     PositionComponent *position_component_ = nullptr;
     Sprite *sprite_ = nullptr;
@@ -39,6 +41,7 @@ private:
     bool win_has_content = false;
     bool visible_ = true;
     bool visibility_modified_ = false;
+    bool force_redraw_ = false;
     Layer layer_ = Layer::BACKGROUND;
     bool skip_frame_ = false;
 };
