@@ -11,8 +11,8 @@ class TextBlock : public minunity::GameObject {
 public:
     TextBlock(int x, int y, int w);
     void destroy() override;
-//    void awake() override;
-//    void update() override;
+    void render_layer(minunity::Layer layer) override;
+    void redraw() override;
     void set_active(bool active) override;
     void start_lap(std::wstring lap_text, int lap_index, int laps_count);
     bool input(const int key);
@@ -27,9 +27,12 @@ private:
     int position_ = 0;
     bool lap_finished_ = false;
     bool race_finished_ = false;
+    bool has_error_ = false;
+    void draw_lap_text();
     void set_cursor(int position, bool show_error);
     void clear_cursor(int position);
     void clear();
+    bool redraw_flag_ = false;
 };
 
 }

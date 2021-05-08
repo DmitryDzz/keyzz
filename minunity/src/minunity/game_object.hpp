@@ -22,6 +22,7 @@ public:
     virtual void update();
 
     virtual void render_layer(Layer layer);
+    virtual void redraw();
 
     void set_scene(Scene *scene);
     Scene* get_scene();

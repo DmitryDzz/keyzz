@@ -63,6 +63,22 @@ void GameObject::render_layer(Layer layer) {
     }
 }
 
+void GameObject::redraw() {
+    auto i = std::begin(components_);
+    while (i != std::end(components_)) {
+        Component* component = (*i).get();
+        if (component->is_destroyed()) {
+            components_.erase(i);
+        } else {
+            RendererComponent* renderer = dynamic_cast<RendererComponent*>(component);
+            if (renderer) {  // (RendererComponents only)
+                renderer->redraw();
+            }
+            i++;
+        }
+    }
+}
+
 void GameObject::set_scene(Scene *scene) {
     scene_ = scene;
 }

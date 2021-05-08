@@ -86,14 +86,15 @@ void Scene::render_layer(Layer layer) {
 }
 
 void Scene::redraw() {
-    for (auto& sh_go : game_objects_) {
-        GameObject *go = sh_go.get();
-        for (auto& s_co : go->get_components()) {
-            std::shared_ptr<RendererComponent> shared_renderer_component_ptr =
-                std::dynamic_pointer_cast<RendererComponent>(s_co);
-
-            if (shared_renderer_component_ptr != nullptr)  // Component is a RendererComponent
-                shared_renderer_component_ptr->redraw();
+    auto i = std::begin(game_objects_);
+    while (i != std::end(game_objects_)) {
+        GameObject *go = (*i).get();
+        if (go->is_destroyed()) {
+            game_objects_.erase(i);
+            update_colliders_list();
+        } else {
+            go->redraw();
+            i++;
         }
     }
 }
