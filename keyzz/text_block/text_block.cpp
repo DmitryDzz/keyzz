@@ -34,7 +34,7 @@ void TextBlock::render_layer(Layer layer) {
 }
 
 void TextBlock::redraw() {
-    if (!get_active()) return; 
+    if (!get_active()) return;
     redraw_flag_ = true;
 }
 
