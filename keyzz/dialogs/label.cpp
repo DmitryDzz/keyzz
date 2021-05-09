@@ -29,7 +29,7 @@ void Label::awake() {
     sprite_ = new Sprite(w_, 1, 1);
     set_text(text_);
 
-    renderer_component_->init(position_component_.get(), sprite_, Layer::GUI);
+    renderer_component_->init(position_component_.get(), sprite_, Layer::GUI_FOREGROUND);
 }
 
 void Label::destroy() {

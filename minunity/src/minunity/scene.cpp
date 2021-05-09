@@ -67,7 +67,8 @@ void Scene::render() {
     render_layer(Layer::PROPS);
     render_layer(Layer::BULLET);
     render_layer(Layer::PLAYER);
-    render_layer(Layer::GUI);
+    render_layer(Layer::GUI_BACKGROUND);
+    render_layer(Layer::GUI_FOREGROUND);
     render_layer(Layer::RESERVED);
 }
 

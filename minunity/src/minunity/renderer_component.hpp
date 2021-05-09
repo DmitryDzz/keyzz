@@ -15,7 +15,8 @@ enum class Layer {
     PROPS,
     BULLET,
     PLAYER,
-    GUI,
+    GUI_BACKGROUND,
+    GUI_FOREGROUND,
     RESERVED
 };
 

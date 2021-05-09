@@ -28,7 +28,7 @@ void Dialog::awake() {
         delete sprite_;
     sprite_ = create_sprite();
 
-    renderer_component_->init(position_component_.get(), sprite_, Layer::LEVEL);
+    renderer_component_->init(position_component_.get(), sprite_, Layer::GUI_BACKGROUND);
 
     set_visible(false);
 }

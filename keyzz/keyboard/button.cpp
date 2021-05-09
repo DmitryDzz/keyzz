@@ -49,7 +49,7 @@ void Button::awake() {
         delete sprite_;
     sprite_ = create_sprite();
 
-    renderer_component_->init(position_component_.get(), sprite_, Layer::LEVEL);
+    renderer_component_->init(position_component_.get(), sprite_, Layer::GUI_BACKGROUND);
     idle_animation_->init(sprite_, 0, false, { 0 });
     pressed_animation_->init(sprite_, 350, false, { 1, 0 });
     shift_pressed_animation_->init(sprite_, 350, false, { 2, 0 });

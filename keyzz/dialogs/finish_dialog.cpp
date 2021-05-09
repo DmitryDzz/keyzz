@@ -14,7 +14,6 @@
 
 using minunity::Engine;
 using minunity::Graph;
-using minunity::Layer;
 using minunity::Point;
 using minunity::PositionComponent;
 using minunity::RendererComponent;
