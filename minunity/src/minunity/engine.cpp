@@ -80,6 +80,7 @@ void Engine::start() {
 void Engine::init_color() {
     if (has_colors()) {
         start_color();
+        use_default_colors();
         color_info_ = std::shared_ptr<ColorInfo>(new ColorInfo(true, can_change_color(), COLORS, COLOR_PAIRS));
     }
 }

@@ -10,6 +10,7 @@
 #include <minunity/collider_groups.hpp>
 #include <minunity/engine.hpp>
 #include <minunity/game_exception.hpp>
+#include <minunity/graph.hpp>
 
 #include "app_manager.hpp"
 #include "scenes/scene_level_1.hpp"
@@ -19,6 +20,7 @@ using keyzz::SceneLevel1;
 
 using minunity::ColorInfo;
 using minunity::ColliderGroups;
+using minunity::Graph;
 
 const char VERSION[] = "1.0.1";
 const char INTRO[] = "keyzz© terminal game by @DmitryDzz";
@@ -77,15 +79,22 @@ int main(int argc, char** argv) {
         app_manager.load_settings();
 
         engine->start();
-        if (app_manager.get_settings()->USE_COLOR)
+        if (app_manager.get_settings()->USE_COLORS) {
             engine->init_color();
 
-        ColorInfo& info = engine->get_color_info();
-        LOG(INFO) << "+++++ " <<
-            " has_colors=" << info.HAS_COLORS <<
-            " can_change_color=" << info.CAN_CHANGE_COLOR <<
-            " COLORS=" << info.COLORS_COUNT <<
-            " COLOR_PAIRS=" << info.COLOR_PAIRS_COUNT;
+            if (engine->get_color_info().HAS_COLORS) {
+                char primary = Graph::create_pair(1, -1, -1);
+                char secondary = Graph::create_pair(2, COLOR_BLUE, -1);
+                app_manager.set_color_pair_indexes(primary, secondary);
+            }
+        }
+
+        // ColorInfo& info = engine->get_color_info();
+        // LOG(INFO) << "+++++ [main.cpp] " <<
+        //     " has_colors=" << info.HAS_COLORS <<
+        //     " can_change_color=" << info.CAN_CHANGE_COLOR <<
+        //     " COLORS=" << info.COLORS_COUNT <<
+        //     " COLOR_PAIRS=" << info.COLOR_PAIRS_COUNT;
 
         ColliderGroups& collider_groups = engine->get_collider_groups();
         collider_groups.clear();

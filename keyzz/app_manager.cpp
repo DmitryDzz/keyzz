@@ -2,8 +2,9 @@
 
 #include "app_manager.hpp"
 
+#include <logger/easylogging++.h>
+
 using keyzz::AppManager;
-// using keyzz::Player;
 
 static AppManager* s_instance = nullptr;
 
@@ -21,10 +22,6 @@ void AppManager::load_settings() {
 void AppManager::save_settings() {
 }
 
-// void AppManager::set_player(std::shared_ptr<Player> player) {
-//     player_ = player;
-// }
-//
-// std::shared_ptr<Player> AppManager::get_player() {
-//     return player_;
-// }
+void AppManager::set_color_pair_indexes(const char primary, const char secondary) {
+    color_pair_indexes_ = std::shared_ptr<ColorPairIndexes>(new ColorPairIndexes(primary, secondary));
+}

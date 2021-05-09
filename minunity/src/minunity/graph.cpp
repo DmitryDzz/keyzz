@@ -70,3 +70,8 @@ void Graph::draw_rect(const wchar_t *ch, Rect &rect) {
 void Graph::update() {
     refresh();
 }
+
+char Graph::create_pair(int index, int fg_color, int bg_color) {
+    init_pair(index, fg_color, bg_color);
+    return index;
+}

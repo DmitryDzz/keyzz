@@ -2,6 +2,8 @@
 
 #include "keyboard.hpp"
 
+#include <logger/easylogging++.h>
+
 #include <memory>
 
 #include "../keyboard/shift_button.hpp"
@@ -30,13 +32,20 @@ void Keyboard::after_pressed(Button& sender, const int key_code) {
 }
 
 void Keyboard::build() {
+    AppManager& app_manager = AppManager::get_instance();
+    AppManager::ColorPairIndexes* colors = app_manager.get_color_pair_indexes();
+    std::optional<char> secondary_color_pair = std::nullopt;
+    if (colors != nullptr) {
+        secondary_color_pair = colors->SECONDARY;
+    }
+
     std::shared_ptr<ShiftButton> left_shift =
         std::dynamic_pointer_cast<ShiftButton>(scene_->add_game_object(new ShiftButton(3, 18, 11, L" Shift L ")));
     std::shared_ptr<ShiftButton> right_shift =
         std::dynamic_pointer_cast<ShiftButton>(scene_->add_game_object(new ShiftButton(64, 18, 13, L"  Shift R  ")));
     int x = 3;
     int y = 9;
-    scene_->add_game_object(new Button(x, y, 5, L"`╱~", L" ` ", L" ~ ", '`', '~', this, right_shift));
+    scene_->add_game_object(new Button(x, y, 5, L"`╱~", L" ` ", L" ~ ", '`', '~', this, right_shift, secondary_color_pair));
     scene_->add_game_object(new Button(x+=5, y, 5, L"1╱!", L" 1 ", L" ! ", '1', '!', this, right_shift));
     scene_->add_game_object(new Button(x+=5, y, 5, L"2╱@", L" 2 ", L" @ ", '2', '@', this, right_shift));
     scene_->add_game_object(new Button(x+=5, y, 5, L"3╱#", L" 3 ", L" # ", '3', '#', this, right_shift));

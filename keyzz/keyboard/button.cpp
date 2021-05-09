@@ -20,7 +20,8 @@ using keyzz::Button;
 Button::Button(int x, int y, int w,
         std::wstring text, std::wstring pressed_text, std::wstring pressed_shift_text,
         std::optional<int> key_code, std::optional<int> shift_key_code,
-        IButtonCallback *button_callback, std::shared_ptr<ShiftButton> shift_button) :
+        IButtonCallback *button_callback, std::shared_ptr<ShiftButton> shift_button,
+        std::optional<char> color_pair_index) :
         x_(x),
         y_(y),
         w_(w < MIN_W ? MIN_W : w),
@@ -30,10 +31,13 @@ Button::Button(int x, int y, int w,
         key_code_(key_code),
         shift_key_code_(shift_key_code),
         button_callback_(button_callback),
-        shift_button_(shift_button) {
+        shift_button_(shift_button),
+        color_pair_index_(color_pair_index) {
     position_component_ = std::dynamic_pointer_cast<PositionComponent>(add_component(new PositionComponent()));
     position_component_->set_position(x, y);
     renderer_component_ = std::dynamic_pointer_cast<RendererComponent>(add_component(new RendererComponent()));
+    if (color_pair_index_)
+        renderer_component_->set_color_pair_index(color_pair_index_.value());
 
     idle_animation_ = std::dynamic_pointer_cast<AnimationComponent>(add_component(new AnimationComponent()));
     pressed_animation_ = std::dynamic_pointer_cast<AnimationComponent>(add_component(new AnimationComponent()));

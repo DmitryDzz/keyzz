@@ -28,7 +28,8 @@ public:
     Button(int x, int y, int w,
            std::wstring text, std::wstring pressed_text, std::wstring pressed_shift_text,
            std::optional<int> key_code, std::optional<int> shift_key_code,
-           IButtonCallback *pressed_callback, std::shared_ptr<ShiftButton> shift_button = nullptr);
+           IButtonCallback *pressed_callback, std::shared_ptr<ShiftButton> shift_button = nullptr,
+           std::optional<char> color_pair_index = std::nullopt);
     void awake() override;
     void destroy() override;
     void update() override;
@@ -51,6 +52,7 @@ private:
     std::optional<int> shift_key_code_;
     IButtonCallback *button_callback_;
     std::shared_ptr<ShiftButton> shift_button_;
+    std::optional<char> color_pair_index_;
     minunity::Sprite *sprite_ = nullptr;
     std::wstring build_frame(
             std::wstring left_top, std::wstring right_top,

@@ -35,20 +35,30 @@ public:
 
     class Settings {
     public:
-        Settings(const int tab_code, const int return_code, const bool use_color) :
-            TAB_CODE(tab_code), RETURN_CODE(return_code), USE_COLOR(use_color) {}
+        Settings(const int tab_code, const int return_code, const bool use_colors) :
+            TAB_CODE(tab_code), RETURN_CODE(return_code), USE_COLORS(use_colors) {}
 
         const int TAB_CODE;
         const int RETURN_CODE;
-        const bool USE_COLOR;
+        const bool USE_COLORS;
+    };
+
+    class ColorPairIndexes {
+    public:
+        ColorPairIndexes(const char primary, const char secondary) :
+            PRIMARY(primary), SECONDARY(secondary) {}
+
+        const char PRIMARY;
+        const char SECONDARY;
     };
 
     Settings* get_settings() { return settings_.get(); }
-//    void set_player(std::shared_ptr<Player> player);
-//    std::shared_ptr<Player> get_player();
+
+    ColorPairIndexes* get_color_pair_indexes() { return color_pair_indexes_.get(); }
+    void set_color_pair_indexes(const char primary, const char secondary);
 private:
-//    std::shared_ptr<Player> player_ = nullptr; 
     std::shared_ptr<Settings> settings_ = nullptr;
+    std::shared_ptr<ColorPairIndexes> color_pair_indexes_ = nullptr;
 };
 
 }

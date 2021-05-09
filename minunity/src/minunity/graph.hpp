@@ -38,6 +38,8 @@ public:
     static void draw_vertical_line(const wchar_t *ch, int x, int y, int length);
     static void draw_rect(const wchar_t *ch, Rect &rect);
     static void update();
+
+    static char create_pair(int index, int fg_color, int bg_color);
 };
 
 } // namespace minunity

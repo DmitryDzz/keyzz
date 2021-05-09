@@ -21,6 +21,10 @@ void RendererComponent::init(PositionComponent *position_component, Sprite *spri
     win_has_content = false;
 }
 
+void RendererComponent::set_color_pair_index(char color_pair_index) {
+    color_pair_index_ = color_pair_index;
+}
+
 void RendererComponent::update() {
 //    if (get_game_object()->get_id() == 2) {
 //        Point p = position_component_->get_position();
@@ -43,9 +47,13 @@ void RendererComponent::update() {
         win_has_content = true;
         mvwin(win, position_component_->get_position().y, position_component_->get_position().x);
         if (visible_) {
+            if (color_pair_index_)
+                wattron(win, COLOR_PAIR(color_pair_index_.value()));
             for (int i = 0; i < sprite_->get_height(); i++) {
                 mvwaddwstr(win, i, 0, sprite_->get_row(i));
             }
+            if (color_pair_index_)
+                wattroff(win, COLOR_PAIR(color_pair_index_.value()));
         }
         wrefresh(win);
 
