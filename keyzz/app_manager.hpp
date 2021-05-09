@@ -34,22 +34,21 @@ public:
     const ColliderGroup collider_group;
 
     class Settings {
-    private:
-        const int tab_code_;
-        const int return_code_;
     public:
-        Settings(const int tab_code, const int return_code) :
-            tab_code_(tab_code), return_code_(return_code) {}
-        int get_tab_code() const { return tab_code_; }
-        int get_return_code() const { return return_code_; }
+        Settings(const int tab_code, const int return_code, const bool use_color) :
+            TAB_CODE(tab_code), RETURN_CODE(return_code), USE_COLOR(use_color) {}
+
+        const int TAB_CODE;
+        const int RETURN_CODE;
+        const bool USE_COLOR;
     };
 
-    Settings* get_settings() { return settings_; }
+    Settings* get_settings() { return settings_.get(); }
 //    void set_player(std::shared_ptr<Player> player);
 //    std::shared_ptr<Player> get_player();
 private:
 //    std::shared_ptr<Player> player_ = nullptr; 
-    Settings* settings_ = nullptr;
+    std::shared_ptr<Settings> settings_ = nullptr;
 };
 
 }

@@ -88,9 +88,9 @@ bool TextBlock::input(const int key) {
     AppManager::Settings* settings = AppManager::get_instance().get_settings();
     int visible_key_code;
     if (key == 0x09)
-        visible_key_code = settings->get_tab_code();
+        visible_key_code = settings->TAB_CODE;
     else if (key == 0x0A)
-        visible_key_code = settings->get_return_code();
+        visible_key_code = settings->RETURN_CODE;
     else
         visible_key_code = key;
 

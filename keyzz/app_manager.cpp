@@ -15,7 +15,7 @@ AppManager& AppManager::get_instance() {
 }
 
 void AppManager::load_settings() {
-    settings_ = new Settings(0x27A7, 0x21B2);
+    settings_ = std::shared_ptr<Settings>(new Settings(0x27A7, 0x21B2, true));
 }
 
 void AppManager::save_settings() {

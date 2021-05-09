@@ -9,6 +9,7 @@
 #include "game_exception.hpp"
 #include "input.hpp"
 
+using minunity::ColorInfo;
 using minunity::Engine;
 using minunity::GameException;
 using minunity::Time;
@@ -62,6 +63,7 @@ void Engine::redraw() {
 void Engine::start() {
     setlocale(LC_ALL, "");
     initscr();
+    color_info_ = std::shared_ptr<ColorInfo>(new ColorInfo(has_colors(), can_change_color(), COLORS, COLOR_PAIRS));
     curs_set(0);
 
     struct sigaction sa;
@@ -75,8 +77,20 @@ void Engine::start() {
     game_time->update();
 }
 
+void Engine::init_color() {
+    if (has_colors()) {
+        start_color();
+        color_info_ = std::shared_ptr<ColorInfo>(new ColorInfo(true, can_change_color(), COLORS, COLOR_PAIRS));
+    }
+}
+
+ColorInfo& Engine::get_color_info() {
+    return *color_info_;
+}
+
 void Engine::stop() {
     if (!is_started_) return;
+    color_info_ = std::shared_ptr<ColorInfo>(new ColorInfo(has_colors(), can_change_color(), COLORS, COLOR_PAIRS));
     endwin();
     is_started_ = false;
 }

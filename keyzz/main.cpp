@@ -17,6 +17,7 @@
 using keyzz::AppManager;
 using keyzz::SceneLevel1;
 
+using minunity::ColorInfo;
 using minunity::ColliderGroups;
 
 const char VERSION[] = "1.0.1";
@@ -72,10 +73,19 @@ int main(int argc, char** argv) {
     LOG(INFO) << INTRO;
 
     try {
-        engine->start();
-
         AppManager& app_manager = AppManager::get_instance();
         app_manager.load_settings();
+
+        engine->start();
+        if (app_manager.get_settings()->USE_COLOR)
+            engine->init_color();
+
+        ColorInfo& info = engine->get_color_info();
+        LOG(INFO) << "+++++ " <<
+            " has_colors=" << info.HAS_COLORS <<
+            " can_change_color=" << info.CAN_CHANGE_COLOR <<
+            " COLORS=" << info.COLORS_COUNT <<
+            " COLOR_PAIRS=" << info.COLOR_PAIRS_COUNT;
 
         ColliderGroups& collider_groups = engine->get_collider_groups();
         collider_groups.clear();

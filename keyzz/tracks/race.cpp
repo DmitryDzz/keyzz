@@ -52,8 +52,8 @@ void Race::load_text(std::string text_filename, std::wstring* race_text) {
         throw GameException(AppManager::ERR_FILE_IS_EMPTY, "File is empty (" + text_filename + ")");
 
     AppManager::Settings* settings = AppManager::get_instance().get_settings();
-    rt = std::regex_replace(rt, std::wregex(L"\\n+"), std::wstring(1, settings->get_return_code()));
-    rt = std::regex_replace(rt, std::wregex(L"\\t+"), std::wstring(1, settings->get_tab_code()));
+    rt = std::regex_replace(rt, std::wregex(L"\\n+"), std::wstring(1, settings->RETURN_CODE));
+    rt = std::regex_replace(rt, std::wregex(L"\\t+"), std::wstring(1, settings->TAB_CODE));
     rt = std::regex_replace(rt, std::wregex(L"\\s+"), L" ");
 }
 
