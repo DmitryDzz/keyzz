@@ -63,8 +63,8 @@ void SceneLevel1::update() {
     }
 }
 
-void SceneLevel1::on_lap_start(std::wstring lap_text, int lap_index, int laps_count) {
-    text_block_->start_lap(lap_text, lap_index, laps_count);
+void SceneLevel1::on_lap_start(std::wstring lap_text, std::wstring next_lap_text, int lap_index, int laps_count) {
+    text_block_->start_lap(lap_text, next_lap_text, lap_index, laps_count);
     text_block_->set_active(true);
 
     my_runner_->set_active(true);
@@ -119,7 +119,7 @@ void SceneLevel1::on_quit() {
 }
 
 void SceneLevel1::create_text_block() {
-    text_block_ = std::dynamic_pointer_cast<TextBlock>(add_game_object(new TextBlock(0, 0, 80)));
+    text_block_ = std::dynamic_pointer_cast<TextBlock>(add_game_object(new TextBlock(3, 0)));
     text_block_->set_active(false);
 }
 

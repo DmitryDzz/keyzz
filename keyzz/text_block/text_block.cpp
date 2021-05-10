@@ -7,19 +7,25 @@
 #include <minunity/graph.hpp>
 
 #include "../app_manager.hpp"
+#include "../tracks/race.hpp"
 
 using keyzz::TextBlock;
 using minunity::Graph;
 using minunity::Layer;
 
-TextBlock::TextBlock(int x, int y, int w) : x_(x), y_(y), w_(w), lap_text_(L"") {
-    win_ = newwin(3, w_, x_, y_);
+TextBlock::TextBlock(int x, int y) : x_(x), y_(y), lap_text_(L""), next_lap_text_(L"") {
+    win_ = newwin(3, Race::LAP_MAX_SIZE, y_, x_);
+    win_next_lap_ = newwin(3, Race::NEXT_LAP_SIZE, y_, x_ + Race::LAP_MAX_SIZE);
 }
 
 void TextBlock::destroy() {
     if (win_ != nullptr) {
         delwin(win_);
         win_ = nullptr;
+    }
+    if (win_next_lap_ != nullptr) {
+        delwin(win_next_lap_);
+        win_next_lap_ = nullptr;
     }
 }
 
@@ -30,6 +36,7 @@ void TextBlock::render_layer(Layer layer) {
         clear();
         set_cursor(position_, has_error_);
         draw_lap_text();
+        draw_next_lap_text();
     }
 }
 
@@ -44,14 +51,16 @@ void TextBlock::set_active(bool active) {
         clear();
 }
 
-void TextBlock::start_lap(std::wstring lap_text, int lap_index, int laps_count) {
+void TextBlock::start_lap(std::wstring lap_text, std::wstring next_lap_text, int lap_index, int laps_count) {
     clear();
     lap_text_ = lap_text;
+    next_lap_text_ = next_lap_text;
     lap_index_ = lap_index;
     laps_count_ = laps_count;
     has_error_ = false;
     set_cursor(0, has_error_);
     draw_lap_text();
+    draw_next_lap_text();
     position_ = 0;
     race_finished_ = false;
     lap_finished_ = false;
@@ -60,28 +69,65 @@ void TextBlock::start_lap(std::wstring lap_text, int lap_index, int laps_count) 
 
 void TextBlock::draw_lap_text() {
     if (!win_) return;
-    Graph::win_draw(win_, lap_text_.c_str(), 3, 1);
+    AppManager& app_manager = AppManager::get_instance();
+    AppManager::ColorPairIndexes* colors = app_manager.get_color_pair_indexes();
+    if (colors != nullptr)
+        wattron(win_, COLOR_PAIR(colors->PRIMARY));
+    Graph::win_draw(win_, lap_text_.c_str(), 0, 1);
+    if (colors != nullptr)
+        wattroff(win_, COLOR_PAIR(colors->PRIMARY));
     wrefresh(win_);
+}
+
+void TextBlock::draw_next_lap_text() {
+    if (!win_next_lap_) return;
+    AppManager& app_manager = AppManager::get_instance();
+    AppManager::ColorPairIndexes* colors = app_manager.get_color_pair_indexes();
+    if (colors != nullptr)
+        wattron(win_next_lap_, COLOR_PAIR(colors->SECONDARY));
+    Graph::win_draw(win_next_lap_, L"Next lap", 0, 0);
+    Graph::win_draw(win_next_lap_, next_lap_text_.c_str(), 0, 1);
+    Graph::win_draw(win_next_lap_, L"‾‾‾‾‾‾‾‾", 0, 2);
+    if (colors != nullptr)
+        wattroff(win_next_lap_, COLOR_PAIR(colors->SECONDARY));
+    wrefresh(win_next_lap_);
 }
 
 void TextBlock::set_cursor(int position, bool show_error) {
     if (!win_) return;
-    Graph::win_draw(win_, show_error ? L"E" : L"_", 3 + position, 0);
-    Graph::win_draw(win_, L"‾", 3 + position, 2);
+    AppManager& app_manager = AppManager::get_instance();
+    AppManager::ColorPairIndexes* colors = app_manager.get_color_pair_indexes();
+    if (colors != nullptr)
+        wattron(win_, COLOR_PAIR(colors->PRIMARY));
+    Graph::win_draw(win_, show_error ? L"E" : L"_", position, 0);
+    Graph::win_draw(win_, L"‾", position, 2);
+    if (colors != nullptr)
+        wattroff(win_, COLOR_PAIR(app_manager.get_color_pair_indexes()->PRIMARY));
     wrefresh(win_);
 }
 
 void TextBlock::clear_cursor(int position) {
     if (!win_) return;
-    Graph::win_draw(win_, L" ", 3 + position, 0);
-    Graph::win_draw(win_, L" ", 3 + position, 2);
+    AppManager& app_manager = AppManager::get_instance();
+    AppManager::ColorPairIndexes* colors = app_manager.get_color_pair_indexes();
+    if (colors != nullptr)
+        wattron(win_, COLOR_PAIR(colors->PRIMARY));
+    Graph::win_draw(win_, L" ", position, 0);
+    Graph::win_draw(win_, L" ", position, 2);
+    if (colors != nullptr)
+        wattroff(win_, COLOR_PAIR(app_manager.get_color_pair_indexes()->PRIMARY));
     wrefresh(win_);
 }
 
 void TextBlock::clear() {
-    if (!win_) return;
-    werase(win_);
-    wrefresh(win_);
+    if (win_) {
+        werase(win_);
+        wrefresh(win_);
+    }
+    if (win_next_lap_) {
+        werase(win_next_lap_);
+        wrefresh(win_next_lap_);
+    }
 }
 
 bool TextBlock::input(const int key) {

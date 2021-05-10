@@ -13,13 +13,14 @@ namespace keyzz {
 
 class IRaceCallback {
 public:
-    virtual void on_lap_start(std::wstring lap_text, int lap_index, int laps_count) = 0;
+    virtual void on_lap_start(std::wstring lap_text, std::wstring next_lap_text, int lap_index, int laps_count) = 0;
     virtual void on_race_finished() = 0;
 };
 
 class Race {
 public:
-    static const std::size_t LAP_MAX_SIZE = 74;
+    static const std::size_t LAP_MAX_SIZE = 66;
+    static const std::size_t NEXT_LAP_SIZE = 8;  // "Next lap" text size
     static const int TRACKS_MAX_COUNT = 5;
     inline static const std::string RECORDS_FILE_HEADER = "keyzz-records   ";
     static const uint16_t RECORDS_FILE_VERSION = 1;
@@ -53,6 +54,7 @@ private:
     std::size_t laps_count_ = 0;
     std::size_t lap_index_ = 0;
     static std::wstring get_lap_text(std::wstring race_text, std::size_t lap_index);
+    static std::wstring get_next_lap_text(std::wstring race_text, std::size_t lap_index);
     void set_local_y_on_tracks(std::vector<std::shared_ptr<Track>> tracks);
 };
 

@@ -45,7 +45,7 @@ private:
     std::optional<uint32_t> finish_dialog_show_millis_ = std::nullopt;
 
     // IRaceCallback members:
-    void on_lap_start(std::wstring lap_text, int lap_index, int laps_count);
+    void on_lap_start(std::wstring lap_text, std::wstring next_lap_text, int lap_index, int laps_count);
     void on_race_finished();
 
     // IKeyboardCallback members:

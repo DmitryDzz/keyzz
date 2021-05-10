@@ -23,6 +23,7 @@ using keyzz::Race;
 using minunity::GameException;
 
 const std::size_t Race::LAP_MAX_SIZE;
+const std::size_t Race::NEXT_LAP_SIZE;
 const uint16_t Race::RECORDS_FILE_VERSION;
 
 bool s_first_load = true;
@@ -205,7 +206,11 @@ void Race::start_race() {
     // Start lap:
     lap_index_ = 0;
     if (race_callback_)
-        race_callback_->on_lap_start(get_lap_text(race_text_, lap_index_), lap_index_, laps_count_);
+        race_callback_->on_lap_start(
+                get_lap_text(race_text_, lap_index_),
+                get_next_lap_text(race_text_, lap_index_),
+                lap_index_,
+                laps_count_);
 }
 
 void Race::next_lap() {
@@ -213,13 +218,28 @@ void Race::next_lap() {
     // Start next lap:
     lap_index_++;
     if (race_callback_)
-        race_callback_->on_lap_start(get_lap_text(race_text_, lap_index_), lap_index_, laps_count_);
+        race_callback_->on_lap_start(
+                get_lap_text(race_text_, lap_index_),
+                get_next_lap_text(race_text_, lap_index_),
+                lap_index_,
+                laps_count_);
 }
 
 std::wstring Race::get_lap_text(std::wstring race_text, std::size_t lap_index) {
     std::size_t index = lap_index * Race::LAP_MAX_SIZE;
     std::size_t count = std::min(Race::LAP_MAX_SIZE, race_text.size() - index);
     return race_text.substr(index, count);
+}
+
+std::wstring Race::get_next_lap_text(std::wstring race_text, std::size_t lap_index) {
+    std::size_t index = (lap_index + 1) * Race::LAP_MAX_SIZE;
+    std::size_t count = std::min(Race::NEXT_LAP_SIZE, race_text.size() - index);
+    // LOG(INFO) << "[Race] size=" << race_text.size() << " index=" << index << " count=" << count;
+    std::wstring result = index < race_text.size() ? race_text.substr(index, count) : L"";
+    // LOG(INFO) << "[Race] result=" << result << " size=" << result.size();
+    result += std::wstring(Race::NEXT_LAP_SIZE - result.size(), L' ');
+    // LOG(INFO) << "[Race] result=" << result << " size=" << result.size();
+    return result;
 }
 
 void Race::finish_track(Track *track) {
