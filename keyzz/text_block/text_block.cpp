@@ -51,7 +51,8 @@ void TextBlock::set_active(bool active) {
         clear();
 }
 
-void TextBlock::start_lap(std::wstring lap_text, std::wstring next_lap_text, int lap_index, int laps_count) {
+void TextBlock::start_lap(std::wstring lap_text, std::optional<std::wstring> next_lap_text,
+        int lap_index, int laps_count) {
     clear();
     lap_text_ = lap_text;
     next_lap_text_ = next_lap_text;
@@ -81,15 +82,19 @@ void TextBlock::draw_lap_text() {
 
 void TextBlock::draw_next_lap_text() {
     if (!win_next_lap_) return;
-    AppManager& app_manager = AppManager::get_instance();
-    AppManager::ColorPairIndexes* colors = app_manager.get_color_pair_indexes();
-    if (colors != nullptr)
-        wattron(win_next_lap_, COLOR_PAIR(colors->SECONDARY));
-    Graph::win_draw(win_next_lap_, L"Next lap", 0, 0);
-    Graph::win_draw(win_next_lap_, next_lap_text_.c_str(), 0, 1);
-    Graph::win_draw(win_next_lap_, L"‾‾‾‾‾‾‾‾", 0, 2);
-    if (colors != nullptr)
-        wattroff(win_next_lap_, COLOR_PAIR(colors->SECONDARY));
+    if (next_lap_text_) {
+        AppManager& app_manager = AppManager::get_instance();
+        AppManager::ColorPairIndexes* colors = app_manager.get_color_pair_indexes();
+        if (colors != nullptr)
+            wattron(win_next_lap_, COLOR_PAIR(colors->SECONDARY));
+        Graph::win_draw(win_next_lap_, L"Next lap", 0, 0);
+        Graph::win_draw(win_next_lap_, next_lap_text_.value().c_str(), 0, 1);
+        Graph::win_draw(win_next_lap_, L"‾‾‾‾‾‾‾‾", 0, 2);
+        if (colors != nullptr)
+            wattroff(win_next_lap_, COLOR_PAIR(colors->SECONDARY));
+    } else {
+        werase(win_next_lap_);
+    }
     wrefresh(win_next_lap_);
 }
 

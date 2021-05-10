@@ -162,7 +162,7 @@ void FinishDialog::draw_race_results() {
     else if (player_position == 1)
         title_label_->set_text(L"     Second is the first loser!");
     else if (player_position == 2)
-        title_label_->set_text(L"  Third place is the second loser!");
+        title_label_->set_text(L"     Third is the second loser!");
     else if (player_position == Race::TRACKS_MAX_COUNT - 1)
         title_label_->set_text(L"             Epic loser!");
     else

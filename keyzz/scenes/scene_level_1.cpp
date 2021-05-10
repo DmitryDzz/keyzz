@@ -63,7 +63,8 @@ void SceneLevel1::update() {
     }
 }
 
-void SceneLevel1::on_lap_start(std::wstring lap_text, std::wstring next_lap_text, int lap_index, int laps_count) {
+void SceneLevel1::on_lap_start(std::wstring lap_text, std::optional<std::wstring> next_lap_text,
+        int lap_index, int laps_count) {
     text_block_->start_lap(lap_text, next_lap_text, lap_index, laps_count);
     text_block_->set_active(true);
 

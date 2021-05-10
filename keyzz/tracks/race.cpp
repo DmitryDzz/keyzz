@@ -231,14 +231,14 @@ std::wstring Race::get_lap_text(std::wstring race_text, std::size_t lap_index) {
     return race_text.substr(index, count);
 }
 
-std::wstring Race::get_next_lap_text(std::wstring race_text, std::size_t lap_index) {
+std::optional<std::wstring> Race::get_next_lap_text(std::wstring race_text, std::size_t lap_index) {
     std::size_t index = (lap_index + 1) * Race::LAP_MAX_SIZE;
+    if (race_text.size() <= index) {
+        return std::nullopt;
+    }
     std::size_t count = std::min(Race::NEXT_LAP_SIZE, race_text.size() - index);
-    // LOG(INFO) << "[Race] size=" << race_text.size() << " index=" << index << " count=" << count;
     std::wstring result = index < race_text.size() ? race_text.substr(index, count) : L"";
-    // LOG(INFO) << "[Race] result=" << result << " size=" << result.size();
     result += std::wstring(Race::NEXT_LAP_SIZE - result.size(), L' ');
-    // LOG(INFO) << "[Race] result=" << result << " size=" << result.size();
     return result;
 }
 

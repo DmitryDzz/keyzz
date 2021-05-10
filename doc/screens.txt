@@ -60,7 +60,7 @@
  0█                      ╔════════════════════════════════════╗                    █
  1█                      ║              You win!              ║                    █
  1█                      ║     Second is the first loser!     ║                    █
- 1█                      ║  Third place is the second loser!  ║                    █
+ 1█                      ║     Third is the second loser!     ║                    █
  1█                      ║               Loser!               ║                    █
  1█                      ║             Epic loser!            ║                    █
  2█                      ║                         ┌────────┐ ║                    █
