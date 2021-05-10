@@ -4,8 +4,13 @@
 
 using keyzz::ShiftButton;
 
-ShiftButton::ShiftButton(int x, int y, int w, std::wstring text)
-        : Button(x, y, w, text, text, text, std::nullopt, std::nullopt, nullptr) {
+ShiftButton::ShiftButton(int x, int y, int w, std::wstring text,
+        std::optional<char> color_pair_index)
+        : Button(x, y, w,
+                text, text, text,
+                std::nullopt, std::nullopt,
+                nullptr, nullptr,
+                color_pair_index) {
 }
 
 void ShiftButton::play_animation() {
