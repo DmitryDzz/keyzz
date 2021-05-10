@@ -84,6 +84,10 @@ int main(int argc, char** argv) {
 
             if (engine->get_color_info().HAS_COLORS) {
                 char primary = Graph::create_pair(1, -1, -1);
+                if (engine->get_color_info().CAN_CHANGE_COLOR) {
+                    int gray = 400;
+                    Graph::change_color(COLOR_BLUE, gray, gray, gray);
+                }
                 char secondary = Graph::create_pair(2, COLOR_BLUE, -1);
                 app_manager.set_color_pair_indexes(primary, secondary);
             }

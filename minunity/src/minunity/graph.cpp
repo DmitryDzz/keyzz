@@ -75,3 +75,7 @@ char Graph::create_pair(int index, int fg_color, int bg_color) {
     init_pair(index, fg_color, bg_color);
     return index;
 }
+
+void Graph::change_color(int index, int r, int g, int b) {
+    init_color(index, r, g, b);
+}

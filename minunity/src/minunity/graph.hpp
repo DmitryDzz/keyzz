@@ -40,6 +40,7 @@ public:
     static void update();
 
     static char create_pair(int index, int fg_color, int bg_color);
+    static void change_color(int index, int r, int g, int b);
 };
 
 } // namespace minunity
