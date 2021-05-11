@@ -19,8 +19,7 @@ public:
 
 class Race {
 public:
-    // static const std::size_t LAP_MAX_SIZE = 66;
-    static const std::size_t LAP_MAX_SIZE = 8;
+    static const std::size_t LAP_MAX_SIZE = 66;
     static const std::size_t NEXT_LAP_SIZE = 8;  // "Next lap" text size
     static const int TRACKS_MAX_COUNT = 5;
     inline static const std::string RECORDS_FILE_HEADER = "keyzz-records   ";

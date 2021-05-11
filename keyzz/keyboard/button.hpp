@@ -34,7 +34,12 @@ public:
     void destroy() override;
     void update() override;
 protected:
-    minunity::Sprite* create_sprite();
+    int get_w() { return w_; }
+    std::wstring get_text() { return text_; }
+    std::wstring get_pressed_text() { return pressed_text_; }
+    std::wstring get_pressed_shift_text() { return pressed_shift_text_; }
+
+    virtual minunity::Sprite* create_sprite();
     minunity::Sprite* get_sprite() { return this->sprite_; }
     std::shared_ptr<minunity::PositionComponent> position_component_ = nullptr;
     std::shared_ptr<minunity::RendererComponent> renderer_component_ = nullptr;

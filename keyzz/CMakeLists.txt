@@ -15,6 +15,7 @@ add_executable(keyzz
     dialogs/dialog.cpp
     dialogs/start_dialog.cpp
     dialogs/finish_dialog.cpp
+    dialogs/continue_button.cpp
 )
 
 target_link_libraries(keyzz PRIVATE logger minunity ${CURSES_LIBRARIES})

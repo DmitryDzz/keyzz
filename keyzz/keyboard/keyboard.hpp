@@ -4,7 +4,7 @@
 #include <minunity/game_object.hpp>
 #include <minunity/scene.hpp>
 
-#include "../keyboard/button.hpp"
+#include "button.hpp"
 
 namespace keyzz {
 

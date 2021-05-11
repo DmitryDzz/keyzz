@@ -36,6 +36,7 @@ void SceneLevel1::awake() {
     race_->load(filename_);
 
     create_text_block();
+    create_continue_button();
     create_keyboard();
     create_dialogs();
     create_lap_counter();
@@ -49,17 +50,21 @@ void SceneLevel1::awake() {
 void SceneLevel1::update() {
     Scene::update();
 
-    if (finish_dialog_show_millis_) {
-        if (Engine::get_instance()->get_time()->get_time() >= finish_dialog_show_millis_.value()) {
-            text_block_->set_active(false);
-            my_runner_->set_active(false);
-            for (auto i = runners_.size(); i-- > 0;)
-                runners_[i]->set_active(false);
-            lap_counter_->set_active(false);
+    bool time_to_open_finish_dialog = finish_dialog_show_millis_ &&
+        Engine::get_instance()->get_time()->get_time() >= finish_dialog_show_millis_.value();
 
-            finish_dialog_->show();
-            finish_dialog_show_millis_ = std::nullopt;
-        }
+    if (time_to_open_finish_dialog || continue_button_pressed_) {
+        text_block_->set_active(false);
+        my_runner_->set_active(false);
+        for (auto i = runners_.size(); i-- > 0;)
+            runners_[i]->set_active(false);
+        lap_counter_->set_active(false);
+        continue_button_->set_active(false);
+
+        finish_dialog_show_millis_ = std::nullopt;
+        continue_button_pressed_ = false;
+
+        finish_dialog_->show();
     }
 }
 
@@ -99,11 +104,16 @@ void SceneLevel1::on_key_pressed(Button& sender, const int key) {
     if (text_block_->get_race_finished()) {
         my_runner_->finish();
         keyboard_->set_active(false);
+        continue_button_->set_active(true);
     }
 
     if (text_block_->get_lap_finished()) {
         race_->next_lap();
     }
+}
+
+void SceneLevel1::on_continue_button_pressed(Button& sender) {
+    continue_button_pressed_ = true;
 }
 
 void SceneLevel1::on_play() {
@@ -183,4 +193,10 @@ void SceneLevel1::output_error_counter(uint32_t errors_count) {
     std::wstring text = L"Errors: " + std::to_wstring(errors_count);
     error_counter_->set_text(text);
     error_counter_->set_active(true);
+}
+
+void SceneLevel1::create_continue_button() {
+    continue_button_ = std::dynamic_pointer_cast<ContinueButton>(add_game_object(
+                new ContinueButton(this, this)));
+    continue_button_->set_active(false);
 }
