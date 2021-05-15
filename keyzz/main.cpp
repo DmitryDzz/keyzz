@@ -22,7 +22,7 @@ using minunity::ColorInfo;
 using minunity::ColliderGroups;
 using minunity::Graph;
 
-const char VERSION[] = "1.0.2";
+const char VERSION[] = "1.0.3";
 const char INTRO[] = "keyzz© terminal game by @DmitryDzz";
 
 void output_intro() {
