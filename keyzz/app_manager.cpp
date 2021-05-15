@@ -15,11 +15,13 @@ AppManager& AppManager::get_instance() {
     return *s_instance;
 }
 
-void AppManager::load_settings() {
-    settings_ = std::shared_ptr<Settings>(new Settings(0x27A7, 0x21B2, true));
+AppManager::AppManager() {
+    settings_ = std::shared_ptr<Settings>(new Settings(0x27A7, 0x21B2, true, true));
 }
 
-void AppManager::save_settings() {
+void AppManager::set_settings(
+        const int tab_code, const int return_code, const bool use_colors, const bool use_penalty) {
+    settings_ = std::shared_ptr<Settings>(new Settings(tab_code, return_code, use_colors, use_penalty));
 }
 
 void AppManager::set_color_pair_indexes(const char primary, const char secondary) {

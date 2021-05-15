@@ -76,7 +76,8 @@ int main(int argc, char** argv) {
 
     try {
         AppManager& app_manager = AppManager::get_instance();
-        app_manager.load_settings();
+        AppManager::Settings& settings = *app_manager.get_settings();
+        app_manager.set_settings(settings.TAB_CODE, settings.RETURN_CODE, settings.USE_COLORS, true);
 
         engine->start();
         if (app_manager.get_settings()->USE_COLORS) {

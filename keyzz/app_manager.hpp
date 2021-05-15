@@ -21,8 +21,7 @@ public:
 
     static AppManager& get_instance();
     
-    void load_settings();
-    void save_settings();
+    AppManager();
 
     class ColliderGroup {
     public:
@@ -35,12 +34,13 @@ public:
 
     class Settings {
     public:
-        Settings(const int tab_code, const int return_code, const bool use_colors) :
-            TAB_CODE(tab_code), RETURN_CODE(return_code), USE_COLORS(use_colors) {}
+        Settings(const int tab_code, const int return_code, const bool use_colors, const bool use_penalty) :
+            TAB_CODE(tab_code), RETURN_CODE(return_code), USE_COLORS(use_colors), USE_PENALTY(use_penalty) {}
 
         const int TAB_CODE;
         const int RETURN_CODE;
         const bool USE_COLORS;
+        const bool USE_PENALTY;
     };
 
     class ColorPairIndexes {
@@ -53,6 +53,7 @@ public:
     };
 
     Settings* get_settings() { return settings_.get(); }
+    void set_settings(const int tab_code, const int return_code, const bool use_colors, const bool use_penalty);
 
     ColorPairIndexes* get_color_pair_indexes() { return color_pair_indexes_.get(); }
     void set_color_pair_indexes(const char primary, const char secondary);
