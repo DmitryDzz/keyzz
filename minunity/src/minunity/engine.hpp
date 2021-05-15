@@ -50,6 +50,7 @@ public:
     Time *get_time();
     void redraw();
 private:
+    static const int DELAY_MICROSECONDS = 5;
     bool is_started_ = false;
     bool is_running_ = false;
     Scene *scene_ = nullptr;

@@ -5,6 +5,7 @@
 #include <ncurses.h>
 
 #include <locale>
+#include <thread>
 
 #include "game_exception.hpp"
 #include "input.hpp"
@@ -17,6 +18,7 @@ using minunity::Scene;
 using minunity::ColliderGroups;
 
 Engine *s_instance = nullptr;
+const int Engine::DELAY_MICROSECONDS;
 
 INITIALIZE_EASYLOGGINGPP
 
@@ -101,8 +103,10 @@ void Engine::run() {
         throw new GameException(GameException::ENGINE_NOT_STARTED, "Engine not started");
 
     is_running_ = true;
-    while (is_running_)
+    while (is_running_) {
         run_once_impl();
+        std::this_thread::sleep_for(std::chrono::microseconds(Engine::DELAY_MICROSECONDS));
+    }
 }
 
 void Engine::run_once() {
