@@ -107,7 +107,7 @@ int main(int argc, char** argv) {
         collider_groups.add_pair(collider_group.player, collider_group.border);
         collider_groups.add_pair(collider_group.enemy, collider_group.border);
 
-        SceneLevel1 *sceneLevel1 = new SceneLevel1(filename);
+        SceneLevel1 *sceneLevel1 = new SceneLevel1(filename, app_manager);
         engine->set_scene(sceneLevel1);
 
         engine->run();

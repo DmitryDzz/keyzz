@@ -27,7 +27,8 @@ using keyzz::FinishDialog;
 using minunity::Engine;
 using minunity::GameObject;
 
-SceneLevel1::SceneLevel1(std::string filename) : Scene(), filename_(filename) {
+SceneLevel1::SceneLevel1(std::string filename, AppManager& app_manager) : Scene(),
+    filename_(filename), app_manager_(app_manager) {
 }
 
 void SceneLevel1::awake() {
@@ -94,11 +95,16 @@ void SceneLevel1::on_key_pressed(Button& sender, const int key) {
     if (!text_block_ || !my_runner_) return;
 
     // LOG(INFO) << "[SceneLevel1] key=" << key;
-    if (text_block_->input(key)) {
-        my_runner_->move_one_step();
-    } else {
-        errors_count_++;
-        output_error_counter(errors_count_);
+    if (!my_runner_->in_error_delay()) {
+        if (text_block_->input(key)) {
+            my_runner_->move_one_step();
+        } else {
+            if (app_manager_.get_settings()->USE_PENALTY) {
+                my_runner_->start_error_delay();
+            }
+            errors_count_++;
+            output_error_counter(errors_count_);
+        }
     }
 
     if (text_block_->get_race_finished()) {

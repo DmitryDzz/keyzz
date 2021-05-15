@@ -7,6 +7,7 @@
 
 #include <minunity/scene.hpp>
 
+#include "../app_manager.hpp"
 #include "../dialogs/start_dialog.hpp"
 #include "../dialogs/finish_dialog.hpp"
 #include "../dialogs/label.hpp"
@@ -28,11 +29,12 @@ class SceneLevel1 : public minunity::Scene,
     private IStartDialogCallback,
     private IFinishDialogCallback {
 public:
-    SceneLevel1(std::string filename);
+    SceneLevel1(std::string filename, AppManager& app_manager);
     void awake() override;
     void update() override;
 private:
     std::string filename_;
+    AppManager& app_manager_;
     std::shared_ptr<Race> race_;
 
     std::shared_ptr<keyzz::TextBlock> text_block_ = nullptr;
