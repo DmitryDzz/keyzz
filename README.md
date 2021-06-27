@@ -36,14 +36,14 @@ cd keyzz
 ```
 mkdir debug
 cd debug
-
-cmake -DCMAKE_BUILD_TYPE=Debug ..
-or
-cmake -DCMAKE_CXX_CPPLINT=cpplint -DCMAKE_BUILD_TYPE=Debug ..
-
+cmake -DCMAKE_CXX_CPPLINT=cpplint -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
 cmake --build .
-./keyzz/keyzz
+cd ..
+ln -s debug/compile_commands.json compile_commands.json
+./debug/keyzz/keyzz
 ```
+
+A special comment on -DCMAKE_EXPORT_COMPILE_COMMANDS=ON and ln -s ... lines. These lines are optional and made to tell YouCompleteMe vim plugin how to build the project.
 
 ### Release version
 ```
